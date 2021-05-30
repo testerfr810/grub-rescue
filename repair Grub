@@ -1,0 +1,37 @@
+
+
+# Situation 1 grub>.
+
+grub> ls
+(hd0) (hd0,msdos1)
+
+grub> ls (hd0,msdos1)
+
+# si ok vous avez la liste des dossier qui apparaisse vous ete bon.
+
+grub>  set root=(hd0,msdos1)
+grub> linux /boot/vmlinuz-linux root=/dev/sda1
+grub> initrd /boot/initramfs-linux.img
+grub> boot
+
+# après redémarage.
+
+grub-mkconfig -o /boot/grub/grub.cfg
+grub-install /dev/sda
+reboot
+
+# Situation 2 grub rescue>.
+
+grub rescue>
+
+# insérez la clé bootable et boot dessus.
+
+root@archiso ~ # mount /dev/sda1 /mnt
+root@archiso ~ # arch-chroot /mnt
+[root@archiso /]# mkdir /boot/grub
+[root@archiso /]# grub-mkconfig -o /boot/grub/grub.cfg
+[root@archiso /]# cd /boot/grub/
+[root@archiso /]# ls
+[root@archiso /]# grub-install /dev/sda
+[root@archiso /]# exit
+root@archiso ~ # reboot
